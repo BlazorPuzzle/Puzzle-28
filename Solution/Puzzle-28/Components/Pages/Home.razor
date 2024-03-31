@@ -1,0 +1,24 @@
+﻿@page "/"
+@using Markdig
+@inject IWebHostEnvironment Env
+
+<PageTitle>Home</PageTitle>
+
+@MarkdownContent
+
+@code {
+
+	private string MarkdownContent { get; set; } = string.Empty;
+
+	protected override async Task OnInitializedAsync()
+	{
+
+		var markdown = await System.IO.File.ReadAllTextAsync($"{Env.WebRootPath}/content/home.md", System.Text.Encoding.ASCII);
+
+		MarkdownContent = Markdig.Markdown.ToHtml(markdown);
+
+		await base.OnInitializedAsync();
+	}
+
+
+}
